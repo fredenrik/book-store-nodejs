@@ -1,6 +1,6 @@
-import mongoose from 'mongoose';
+import { Schema, model } from 'mongoose';
 
-const bookSchema = mongoose.Schema(
+const BookSchema = Schema(
   {
     title: {
       type: String,
@@ -20,4 +20,4 @@ const bookSchema = mongoose.Schema(
   }
 );
 
-export const Book = mongoose.model('Cat', bookSchema);
+export const Book = model('Book', BookSchema);

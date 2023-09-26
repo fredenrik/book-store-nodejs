@@ -1,20 +1,29 @@
 import express from 'express';
-import mongoose from 'mongoose';
-import {mongoDBURL, PORT} from '../config.js';
-import booksRoute from '../routes/books.js';
 import cors from 'cors';
+
+import {mongodbConnection} from '../database/config.js';
+import books from '../routes/books.js';
+import users from '../routes/users.js';
 
 export default class Server {
   constructor() {
     this.app = express();
-    this.port = PORT;
+    this.port = process.env.PORT;
     this.pathBooks = '/books';
+    this.pathUsers = '/users';
+
+    // Connection database
+    this.connectionDB();
 
     // Middlewares
     this.middlewares();
 
     this.routes();
-  }
+  };
+
+  async connectionDB() {
+    await mongodbConnection();
+  };
 
   middlewares() {
     this.app.use(cors());
@@ -31,20 +40,13 @@ export default class Server {
       // return res.status(234).send('Welcome to MERN stack tutorial');
     });
 
-    this.app.use(this.pathBooks, booksRoute);
+    this.app.use(this.pathBooks, books);
+    this.app.use(this.pathUsers, users);
   }
 
   listen() {
-    mongoose
-      .connect(mongoDBURL)
-      .then(() => {
-        console.log('App connected to database');
-        this.app.listen(this.port, () => {
-          console.log(`App is listening to port: ${this.port}`);
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    this.app.listen(this.port, () => {
+      console.log(`App is listening to port: ${this.port}`);
+    });
   }
 };
