@@ -1,15 +1,15 @@
 import mongoose from 'mongoose';
 
-export const mongodbConnection = async () => {
-  mongoose
-    .connect(process.env.MONGODB_CNN, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
-    .then(() => {
-      console.log('App connected to database');
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+export const mongodbConnection = async (uri) => {
+  try {
+    await mongoose
+      .connect(uri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+    console.log('App connected to database');
+  } catch (e) {
+    console.log('Cannot connection with data base');
+    throw new Error(e)
+  }
 };

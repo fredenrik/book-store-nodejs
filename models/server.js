@@ -9,8 +9,7 @@ export default class Server {
   constructor() {
     this.app = express();
     this.port = process.env.PORT;
-    this.pathBooks = '/books';
-    this.pathUsers = '/users';
+    this.uri = process.env.MONGODB_CNN;
 
     // Connection database
     this.connectionDB();
@@ -22,7 +21,7 @@ export default class Server {
   };
 
   async connectionDB() {
-    await mongodbConnection();
+    await mongodbConnection(this.uri);
   };
 
   middlewares() {
@@ -33,19 +32,15 @@ export default class Server {
 
   routes() {
     this.app.get('/api', (req, res) => {
-      res.status(403)
-        .json({
-          msg: 'get API',
-        });
-      // return res.status(234).send('Welcome to MERN stack tutorial');
+      res.status(403).send('Welcome to MERN stack tutorial');
     });
 
-    this.app.use(this.pathBooks, books);
-    this.app.use(this.pathUsers, users);
+    this.app.use('/books', books);
+    this.app.use('/users', users);
   }
 
   listen() {
-    this.app.listen(this.port, () => {
+    return this.app.listen(this.port, () => {
       console.log(`App is listening to port: ${this.port}`);
     });
   }

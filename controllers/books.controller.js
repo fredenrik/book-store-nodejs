@@ -1,5 +1,6 @@
 import {response} from 'express';
 import {Book} from '../models/book.js';
+import {getBooks} from '../services/books.service.js';
 
 export const createBook = async (req, res = response) => {
   try {
@@ -30,7 +31,7 @@ export const getAllBooks = async (req, res = response) => {
   try {
     const { page =1, limit = 0 } = req.query;
 
-    const books = await Book.find({});
+    const books = await getBooks();
     return res.status(200).json({
       count: books.length,
       data: books,
