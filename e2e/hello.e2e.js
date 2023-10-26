@@ -36,7 +36,7 @@ describe('Test for hello endpoint', () => {
 
   describe('test for [GET] /', () => {
     test('should return "Hello word!"', async () => {
-      const response = await request(server.app).get('/api');
+      const response = await request(app).get('/api');
       expect(response.text).toEqual('Welcome to MERN stack tutorial');
     });
   });
