@@ -47,6 +47,7 @@ jobs:
         shell: bash
         run: npm run test:e2e
         env:
+          PORT: ${{ secrets.PORT }}
           MONGO_DB_NAME: demo
           MONGODB_LOCAL: mongodb://test:test123@mongo-e2e:27017/?retryWrites=true&w=majority
 

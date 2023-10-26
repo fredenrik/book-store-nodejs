@@ -25,8 +25,8 @@ describe('Test for hello endpoint', () => {
     app.use(express.static('public'));
     app.use('/books', books);
 
-    appServer =  await app.listen(3000, () => {
-      console.log('App is listening to port: 3000');
+    appServer =  await app.listen(process.env.PORT, () => {
+      console.log(`App is listening to port: ${process.env.PORT}`);
     });
   });
 
